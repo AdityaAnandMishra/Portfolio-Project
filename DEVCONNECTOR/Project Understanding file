@@ -1,0 +1,23 @@
+WE need to install the following dependcies in our file -
+
+1.Express - main web framework for frontend
+
+2.express-validator - for data validation 
+
+3-bcryptjs- it is used for password encrpytion
+
+4.config- for global variable
+
+5.gravatar- it is used for the profile avatar and use their mail to login and their profile sutomatically get fetech from their mail
+
+6.jsonwebtoken - we need a web token for a validation
+
+7.mongoose- it setup on a database as a layer so we can interact eith the database
+
+8.request - 
+
+there are more dependecy for devloper enviourment 
+
+1. nodemon - it is used to run our server constantly it help to automatically refresh it
+ 
+2. concurrently - it allow us run our server from backend server express and frontend react  
