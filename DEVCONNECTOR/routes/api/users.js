@@ -3,7 +3,7 @@ const router = express.Router();
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const config = require('config');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 
 const User = require('../../models/Users')
@@ -71,10 +71,7 @@ async (req, res) => {
             res.json({ token });
         }
     );
-
-    res.send('User registered');
     }
-
     catch(err){
         console.error(err.message);
         res.status(500).send('server error')
