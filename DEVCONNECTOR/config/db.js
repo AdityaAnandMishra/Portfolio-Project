@@ -5,7 +5,10 @@ const db = config.get('mongoURI');
 
 const connectDB = async () => {
     try{
-        await mongoose.connect(db);
+        await mongoose.connect(db,{
+            useUnifiedTopology: true,
+            useNewUrlParser: true,
+        });
         console.log("Mongoose Database is runing ...");
     } catch(err){
         console.log(err.message);

@@ -24,7 +24,7 @@ router.get('/me' , auth, async (req, res) => {
     }
 });
 
-// route  get api/profile
+// route  post api/profile
 // desc   create or update User Profile
 // access Private
 router.post('/', [
@@ -81,10 +81,10 @@ router.post('/', [
         let profile = Profile.findOne({ user: req.user.id })
         if(profile){
             //update the user profile
-            profile = await Profile.findByIdAndUpdate(
+            profile = await Profile.findOneAndUpdate(
                 { user: req.user.id },
                 { $set: profileField},
-                { new: true }  
+                { new: true, upsert: true , setDefaultsOnInsert: true}  
             );
 
             return res.json(profile);
@@ -101,8 +101,44 @@ router.post('/', [
         res.status(500).send('Server Error')
     }
 
- } 
-
+ }
 );
+
+// route  get api/profile
+// desc   get All the user
+// access public
+
+router.get('/' , async (req, res) => {
+    try {
+        //to get the all user profile
+       const profiles= await Profile.find().populate( 'user', ['name', 'avatar']);
+
+       res.json(profiles);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error')
+    }
+});
+
+// route  get api/profile/user/:user_id
+// desc   get All the user
+// access public
+
+router.get('/users/:user_id' , async (req, res) => {
+    try {
+        //to get the all user profile
+       const profile= await Profile.findOne({ user: req.params.user_id}).populate( 'user', ['name', 'avatar']);
+
+       if(!profile) return res.status(400).json({ msg: ' There is no Profile for this User '});
+
+       res.json(profile);
+    } catch (err) {
+        console.error(err.message);
+        if(err.kind == 'ObjectId'){
+            if(!profile) return res.status(400).json({ msg: ' There is no Profile for this User '});
+        }
+        res.status(500).send('Server Error')
+    }
+});
 
 module.exports = router;
